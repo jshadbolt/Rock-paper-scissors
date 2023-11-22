@@ -44,19 +44,46 @@ function getPlayerChoice() {
         return 'paper';
     } else if (input == 'scissors') {
         return 'scissors';
-    } else {
-        return 'invalid';
     }
+}
+
+function getWinner(player, computer) {
+//each comparison is made, 'tie' covers the final three possibilities.
+if (player === 'rock' && computer === 'paper') {
+    return 'computer';
+} else if (player === 'rock' && computer === 'scissors') {
+    return 'player';
+}  else if (player === 'paper' && computer === 'scissors') {
+    return 'computer';
+} else if (player === 'paper' && computer === 'rock') {
+    return 'player';
+} else if (player === 'scissors' && computer === 'rock') {
+    return 'computer';
+}  else if (player === 'scissors' && computer === 'paper') {
+    return 'player';
+} else {
+    return 'none';
+}
 }
 
 let computerSelection = getComputerChoice();
 let playerSelection = getPlayerChoice();
 
-function winner(computer, player) {
-    
-}
+let result = getWinner(playerSelection, computerSelection);
+
+// function scoreCount {
+//     for (let i = 0; i < 5; i++) {
+//         result == player ? 
+//     }
+// }
+
+// let playerScore = 0
+
+// let computerScore = 0pa
+
+console.log ('computer chose ' + computerSelection);
+console.log ('you chose ' + playerSelection);
+console.log(result + ' wins');
 
 
-// console.log ('computer chose ' + computerSelection);
-// console.log ('you chose ' + playerSelection);
 
