@@ -1,25 +1,4 @@
-// Paper scissors rock
-
-// Create:
-// Variable R
-// Variable P
-// Variable S
-
-// Set variable values to be:
-// Rock is > scissors, scissors is > paper, paper is > Rock. 
-
-// Computer chooses rock, paper or scissors
-// Player inputs rock, paper or scissors (case insensitive)
-
-// If player choice is beaten by computer choice, computer gains a point
-// Losing message displayed
-// If player choice wins against computer choice, player gains point
-// Winning message displayed
-// Add to score tally
-
-// When 5 rounds have been played, declare the winner.
-// Then reset game.
-
+//gets computer to randomly choose of the 3 choices.
 function getComputerChoice() {
     function getRandomNum() {
         return Math.floor(Math.random() * (4 - 1) + 1);
@@ -34,9 +13,11 @@ function getComputerChoice() {
     }
 }
 
+//gets the players choice and un-capitalises their input.
 function getPlayerChoice() {
     let input = prompt('Rock paper or scissors?');
     input = input.toLowerCase();
+
 
     if (input == 'rock') {
         return 'rock';
@@ -44,11 +25,11 @@ function getPlayerChoice() {
         return 'paper';
     } else if (input == 'scissors') {
         return 'scissors';
-    }
+    } 
 }
 
+//decides who won
 function getWinner(player, computer) {
-//each comparison is made, 'tie' covers the final three possibilities.
 if (player === 'rock' && computer === 'paper') {
     return 'computer';
 } else if (player === 'rock' && computer === 'scissors') {
@@ -63,27 +44,87 @@ if (player === 'rock' && computer === 'paper') {
     return 'player';
 } else {
     return 'none';
+    //this covers the final three 'tie' possibilities
+
 }
 }
 
-let computerSelection = getComputerChoice();
-let playerSelection = getPlayerChoice();
+//holds the playerscore, the computer score, and tie score
+let playerScore = 0;
+let computerScore = 0;
+let tie = 0;
 
-let result = getWinner(playerSelection, computerSelection);
+function getResults() {
+    //holds what computer picked, what player picked, compare the two and declare who won (or tie).
+    let playerSelection = getPlayerChoice();
+    let computerSelection = getComputerChoice();
+    let winner = getWinner(playerSelection, computerSelection);
 
-// function scoreCount {
-//     for (let i = 0; i < 5; i++) {
-//         result == player ? 
-//     }
-// }
 
-// let playerScore = 0
+    //prints what computer chose, what player chose, and who the winner is
+    console.log('Computer chose: ' + computerSelection);
+    console.log('Player chose: ' + playerSelection);
+    console.log(winner.toUpperCase() + ' WINS!');
 
-// let computerScore = 0pa
+    //prints player score, computer score, tie score. 
+    function scoreboard() {
+        console.log('               SCOREBOARD: ')
 
-console.log ('computer chose ' + computerSelection);
-console.log ('you chose ' + playerSelection);
-console.log(result + ' wins');
+        if (winner === 'player') {
+            ++playerScore;
+        } else if (winner === 'computer') {
+            ++computerScore;
+        } else {
+            ++tie;
+        }
+
+        console.log('Player: ' + playerScore)
+        console.log('Computer: ' + computerScore)
+        console.log('Tie: ' + tie)
+    }
+    scoreboard()
+}
+
+
+function game(numberToWin) {
+    alert(`Guide:
+    -Type 'rock' 'paper' or 'scissors'
+    -Score 3 points to win`)
+
+//plays 5 rounds.
+for (let i = 1; i < 50; ++i) {
+    console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
+    console.log('ROUND: ' + i)
+    console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
+    getResults();
+    
+//checks to see if either player has scored 3 points, resets game if so, otherwise prompts for next round. 
+    if (playerScore === numberToWin) {
+        console.log('                           GAME OVER: Player Won!')
+        alert('Play again?')
+        console.clear()
+        playerScore = 0;
+        computerScore = 0;
+        tie = 0;
+        i = 0
+    } else if (computerScore === numberToWin) {
+        console.log('                           GAME OVER: Computer won!')
+        alert('Play again?')
+        console.clear()
+        playerScore = 0;
+        computerScore = 0;
+        tie = 0;
+        i = 0;
+    } else {
+        alert('Next Round?');
+        console.clear()
+    }
+    }
+}
+
+
+//runs the game (score to win)
+game(3);
 
 
 
