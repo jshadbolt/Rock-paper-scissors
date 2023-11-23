@@ -88,6 +88,9 @@ function getResults() {
 
 function game(numberToWin) {
     alert(`Guide:
+    -Open Console (cmd + option + j)
+    -Reload the page
+            THEN to actually play:
     -Type 'rock' 'paper' or 'scissors'
     -Score 3 points to win`)
 
