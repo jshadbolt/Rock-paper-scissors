@@ -2,12 +2,17 @@
 let rock = document.querySelector('.rock-button')
 let paper = document.querySelector('.paper-button')
 let scissors = document.querySelector('.scissors-button')
-
-let playerScore = 0
-let computerScore = 0
+const playBtn = document.getElementById('play-button')
+const maxPoints = document.getElementById('max-points')
 
 const playerScore_span = document.getElementById('player-span')
 const computerScore_span = document.getElementById('computer-span')
+
+let playerScore = 0
+let computerScore = 0
+let winner = 'none'
+
+//when max amount reached, remove the click listener for each
 
 function randomNum(min, max) {
     min = Math.ceil(min);
@@ -22,13 +27,13 @@ function getComputerChoice() {
 }
 
 function win() {
-    playerScore++
+    ++playerScore
     playerScore_span.textContent = playerScore
     console.log('PLAYER WINS')
 }
 
 function lose() {
-    computerScore++
+    ++computerScore
     computerScore_span.textContent = computerScore
     console.log('COMPUTER WINS')
 }
@@ -36,7 +41,6 @@ function lose() {
 function tie() {
     console.log('IT WAS A TIE')
 }
-
 
 function decideWinner(playerChoice, computerChoice) {
     console.log(`player chose ${playerChoice}, computer chose ${computerChoice}`)
@@ -59,26 +63,72 @@ function decideWinner(playerChoice, computerChoice) {
     }
 }
 
-function playRound(playerChoice)  {
+function pauseScores() {
+
+}
+
+function resetPoints() {
+    playerScore = 0
+    playerScore_span.textContent = 0
+    computerScore = 0
+    computerScore_span.textContent = 0
+}
+
+function showPlayButton() {
+    playBtn.classList.remove('hide-play-button')
+    playBtn.textContent = 'Play Again?'
+}
+
+
+function declareWinner(winner) {
+    showPlayButton();
+    console.log(`max points reached, ${winner} wins!`)
+    playBtn.addEventListener('click', () => {
+    resetPoints()
+    })   
+}
+
+function pointsToWin(amount) {
+    if (playerScore === amount) {
+        winner = 'player'
+        declareWinner(winner)
+    }
+    if (computerScore === amount) {
+    winner = 'computer'
+    declareWinner(winner)
+    }
+}
+
+function playRound(playerChoice, winningScore)  {
     let computerChoice = getComputerChoice();
     decideWinner(playerChoice, computerChoice)
+    pointsToWin(winningScore)
 }
 
-
-function main() {
+function games(amount) {
+    playBtn.classList.add('hide-play-button')
     rock.addEventListener('click', () => {
-        playRound('r')
+        playRound('r', amount)
     })
     paper.addEventListener('click', () => {
-        playRound('p')
+        playRound('p', amount)
     })
     scissors.addEventListener('click', () => {
-        playRound('s')
+        playRound('s', amount)
     })
 }
 
-function playRounds() {
+let defaultAmount = 3
 
+function createDefaultAmount(value, defaultAmount) {
+   return value === 0 ? defaultAmount : value
 }
 
-main();
+playBtn.addEventListener('click', () => {
+    let gameAmount = createDefaultAmount(+maxPoints.value, defaultAmount)
+    console.log(gameAmount)
+    games(gameAmount)
+})
+
+//on play button => reset scores,
+//on gameend => show play button

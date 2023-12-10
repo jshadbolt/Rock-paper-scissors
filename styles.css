@@ -6,12 +6,89 @@
 
 body {
     height: 100vh;
+    background: linear-gradient(rgb(46, 46, 46), rgb(98, 98, 98));
     display: flex;
     flex-direction: column;
+    font-family: arial;
+    user-select: none;
+    -webkit-user-select: none; /*Safari*/
+    -moz-user-select: none; /*Firefox*/
+}
+
+nav {
+    position: relative;
+}
+
+.dashboard {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: auto;
+    width: 20%;
+    position: absolute;
+    top: 100px;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.game-options {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    color: white;
+    margin-bottom: 10px;
+}
+
+#max-points {
+    border: none;
+    outline: none;
+    caret-color: transparent; 
+    text-align: center;
+    width: 1rem;
+    height: 1.5rem;
+    border-radius: 3px;
+}
+
+#max-points:hover {
+    border: 1px solid orange;
+}
+
+#max-points:focus::placeholder {
+    color: transparent;
+}
+
+.scoreboard {
+    display: flex;
+    justify-content: center;
+}
+
+.score-display {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 50px;
+    margin-bottom: 10px;
+}
+
+#play-button {
+    background: coral;
+    color: rgb(255, 255, 255);
+    font-size: bold;
+    box-shadow: 0px 5px rgba(0,0,0,0.59);
+    border-radius: 3px;
+    min-width: 50px;
+    margin: auto;
+    padding: 2px 10px;
+    text-align: center;
+    transition: all 0.2s;
+}
+
+.hide-play-button {
+    opacity: 0;
 }
 
 .game-display {
-    background: linear-gradient(rgb(46, 46, 46), rgb(98, 98, 98));
     flex: 1;
     display: flex;
     justify-content: space-between;
@@ -21,11 +98,8 @@ body {
 }
 
 .player-icon-wrapper, .computer-icon-wrapper {
-    position: relative;
-    /* width: 500px;
-    height: 500px; */
-    flex-grow: 20%;
-    flex-basis: 20%;
+    width: 500px;
+    height: 500px;
     background-color: rgb(31,31,31);
     border-radius: 10px;
     box-shadow: -1px 12px 1cqb 0px rgba(0,0,0,0.59);
@@ -46,13 +120,11 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    position: absolute;
-    left: 83%;
-    bottom: 83%;
     text-shadow: 1px 1px 4px rgb(129, 129, 129) ;
 }
 
 .player-controls {
+    margin: 0 50px;
     display: flex;
     gap: 60px;
 }
@@ -67,6 +139,7 @@ body {
     width: 100px;
     height: 100px;
     border: 2px solid rgba(255, 255, 255, 0.914);
+    box-shadow: -1px 2px 1cqb 1px rgba(141, 141, 141, 0.59);
     border-radius: 50%;
     display: flex;
     justify-content: center;
@@ -78,6 +151,5 @@ body {
 .paper-button:hover,
 .scissors-button:hover {
     box-shadow: -1px 2px 1cqb 0px rgba(141, 141, 141, 0.59);
-    /* box-shadow: -1px 2px 1cqb 5px rgba(141, 141, 141, 0.59); */
     background-color: rgba(52, 52, 52, 0.819);
 }
