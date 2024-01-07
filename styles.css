@@ -40,6 +40,16 @@ nav {
     margin-bottom: 10px;
 }
 
+.game-options-show {
+    transition: 1s;
+    opacity: 1;
+}
+
+.game-options-hide {
+    transition: 1s;
+    opacity: 0;
+}
+
 #max-points {
     border: none;
     outline: none;
@@ -84,9 +94,16 @@ nav {
     transition: all 0.2s;
 }
 
-.hide-play-button {
+.play-button-show {
+    transition: 1s;
+    opacity: 1;
+}
+
+.play-button-hide {
+    transition: 1s;
     opacity: 0;
 }
+
 
 .game-display {
     flex: 1;
@@ -99,7 +116,7 @@ nav {
 
 .player-icon-wrapper, .computer-icon-wrapper {
     width: 500px;
-    height: 500px;
+    /* height: 500px; */
     background-color: rgb(31,31,31);
     border-radius: 10px;
     box-shadow: -1px 12px 1cqb 0px rgba(0,0,0,0.59);
@@ -107,6 +124,19 @@ nav {
     display: flex;
     justify-content: center;
     align-items: center;
+    /* transition: all 1s; */
+}
+
+.green-glow {
+    border: 10px solid green;
+}
+
+.red-glow {
+    border: 10px solid rgb(128, 0, 0);
+}
+
+.gray-glow {
+    border: 10px solid rgb(172, 168, 124);
 }
 
 .player-score, .computer-score {
@@ -153,3 +183,5 @@ nav {
     box-shadow: -1px 2px 1cqb 0px rgba(141, 141, 141, 0.59);
     background-color: rgba(52, 52, 52, 0.819);
 }
+
+

@@ -1,134 +1,158 @@
+const rock = document.querySelector('.rock-button');
+const paper = document.querySelector('.paper-button');
+const scissors = document.querySelector('.scissors-button');
+const gameOptions = document.querySelector('.game-options')
+const playBtn = document.getElementById('play-button');
+const userMaxPoints = document.getElementById('max-points');
+const playerScoreSpan = document.getElementById('player-span');
+const computerScoreSpan = document.getElementById('computer-span');
+const playerWrapper = document.querySelector('.player-icon-wrapper')
+const computerWrapper = document.querySelector('.computer-icon-wrapper')
+const glowDuration = 500;
 
-let rock = document.querySelector('.rock-button')
-let paper = document.querySelector('.paper-button')
-let scissors = document.querySelector('.scissors-button')
-const playBtn = document.getElementById('play-button')
-const maxPoints = document.getElementById('max-points')
+let playerScore = 0;
+let computerScore = 0;
+let maxPoints = 3;
+let gameStarted = false;
+let gameEnded = false;
 
-const playerScore_span = document.getElementById('player-span')
-const computerScore_span = document.getElementById('computer-span')
-
-let playerScore = 0
-let computerScore = 0
-let winner = 'none'
-
-//when max amount reached, remove the click listener for each
-
-function randomNum(min, max) {
-    min = Math.ceil(min);
-    max = Math.floor(max);
-    return Math.floor(Math.random() * (max - min + 1) + min)
+function getRandomChoice() {
+    const choices = ['r', 'p', 's'];
+    return choices[Math.floor(Math.random() * choices.length)];
 }
 
-function getComputerChoice() {
-    let num = randomNum(0, 2)
-    let choices = ['r', 'p', 's']
-    return choices[num]
+function resetGame() {
+    playerScore = 0;
+    computerScore = 0;
+    playerScoreSpan.textContent = '0';
+    computerScoreSpan.textContent = '0';
+    disableChoices(true);
+    gameStarted = false;
+    gameEnded = false;
 }
 
-function win() {
-    ++playerScore
-    playerScore_span.textContent = playerScore
-    console.log('PLAYER WINS')
+function playRound(playerChoice) {
+    if (!gameStarted || gameEnded) return;
+
+    const computerChoice = getRandomChoice();
+    decideWinner(playerChoice, computerChoice);
+    updateScores();
+    checkGameEnd();
 }
 
-function lose() {
-    ++computerScore
-    computerScore_span.textContent = computerScore
-    console.log('COMPUTER WINS')
+function greenGlow(targetDiv) {
+    targetDiv.classList.add('green-glow')
+    setTimeout(() => {
+        targetDiv.classList.remove('green-glow')
+    }, glowDuration )
 }
 
-function tie() {
-    console.log('IT WAS A TIE')
+function redGlow(targetDiv) {
+    targetDiv.classList.add('red-glow')
+    setTimeout(() => {
+        targetDiv.classList.remove('red-glow')
+    }, glowDuration )
+}
+
+function grayGlow(targetDiv1, targetDiv2) {
+    targetDiv1.classList.add('gray-glow')
+    setTimeout(() => {
+        targetDiv1.classList.remove('gray-glow')
+    }, glowDuration )
+    targetDiv2.classList.add('gray-glow')
+    setTimeout(() => {
+        targetDiv2.classList.remove('gray-glow')
+    }, glowDuration )
+}
+
+
+function glowEffect(winner) {
+    switch (winner) {
+        case 'player':
+            greenGlow(playerWrapper)
+            redGlow(computerWrapper)
+            break;
+        case 'computer':
+            greenGlow(computerWrapper)
+            redGlow(playerWrapper)
+            break;
+        case 'tie':
+            grayGlow(playerWrapper, computerWrapper)
+    }
 }
 
 function decideWinner(playerChoice, computerChoice) {
-    console.log(`player chose ${playerChoice}, computer chose ${computerChoice}`)
-    switch (playerChoice + computerChoice) { //player wins
-        case 'rs':
-        case 'pr':
-        case 'sp':
-            win()
-            break;
-        case 'rp':
-        case 'ps':
-        case 'sr':
-            lose()
-            break;
-        case 'rr':
-        case 'pp':
-        case 'ss':
-            tie()
-            break;
-    }
-}
-
-function pauseScores() {
-
-}
-
-function resetPoints() {
-    playerScore = 0
-    playerScore_span.textContent = 0
-    computerScore = 0
-    computerScore_span.textContent = 0
-}
-
-function showPlayButton() {
-    playBtn.classList.remove('hide-play-button')
-    playBtn.textContent = 'Play Again?'
-}
-
-
-function declareWinner(winner) {
-    showPlayButton();
-    console.log(`max points reached, ${winner} wins!`)
-    playBtn.addEventListener('click', () => {
-    resetPoints()
-    })   
-}
-
-function pointsToWin(amount) {
-    if (playerScore === amount) {
+    const result = playerChoice + computerChoice;
+    let winner = ''
+    if (result === 'rs' || result === 'pr' || result === 'sp') {
+        playerScore++;
         winner = 'player'
-        declareWinner(winner)
+        
+    } else if (result === 'rp' || result === 'ps' || result === 'sr') {
+        computerScore++;
+        winner = 'computer'
+
+    } else {
+        winner = 'tie'
     }
-    if (computerScore === amount) {
-    winner = 'computer'
-    declareWinner(winner)
+    glowEffect(winner)
+
+}
+
+function updateScores() {
+    playerScoreSpan.textContent = playerScore.toString();
+    computerScoreSpan.textContent = computerScore.toString();
+}
+
+function checkGameEnd() {
+    if (playerScore === maxPoints || computerScore === maxPoints) {
+        disableChoices(true);
+        const gameWinner = playerScore === maxPoints ? 'Player' : 'Computer';
+        console.log(`Max points reached, ${gameWinner} wins!`);
+        showControls();
+        gameEnded = true;
     }
 }
 
-function playRound(playerChoice, winningScore)  {
-    let computerChoice = getComputerChoice();
-    decideWinner(playerChoice, computerChoice)
-    pointsToWin(winningScore)
+function disableChoices(disabled) {
+    rock.disabled = disabled;
+    paper.disabled = disabled;
+    scissors.disabled = disabled;
 }
 
-function games(amount) {
-    playBtn.classList.add('hide-play-button')
-    rock.addEventListener('click', () => {
-        playRound('r', amount)
-    })
-    paper.addEventListener('click', () => {
-        playRound('p', amount)
-    })
-    scissors.addEventListener('click', () => {
-        playRound('s', amount)
-    })
+function showControls() {
+    playBtn.textContent = 'Play Again?';
+    playBtn.classList.add('play-button-show');
+    playBtn.classList.remove('play-button-hide');
+
+    gameOptions.classList.add('game-options-show')
+    gameOptions.classList.remove('game-options-hide')
 }
 
-let defaultAmount = 3
-
-function createDefaultAmount(value, defaultAmount) {
-   return value === 0 ? defaultAmount : value
+function hidePlayButton() {
+    playBtn.classList.add('play-button-hide');
+    gameOptions.classList.add('game-options-hide')
 }
 
 playBtn.addEventListener('click', () => {
-    let gameAmount = createDefaultAmount(+maxPoints.value, defaultAmount)
-    console.log(gameAmount)
-    games(gameAmount)
-})
+    console.clear()
+    resetGame();
+    hidePlayButton();
+    disableChoices(false);
+    maxPoints = parseInt(userMaxPoints.value) || 3;
+    gameStarted = true;
+});
 
-//on play button => reset scores,
-//on gameend => show play button
+rock.addEventListener('click', () => {
+    playRound('r');
+});
+
+paper.addEventListener('click', () => {
+    playRound('p');
+});
+
+scissors.addEventListener('click', () => {
+    playRound('s');
+});
+
+disableChoices(true); // Initially disable choices
