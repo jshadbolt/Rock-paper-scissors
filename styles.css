@@ -136,7 +136,7 @@ nav {
 }
 
 .gray-glow {
-    border: 10px solid rgb(172, 168, 124);
+    border: 10px solid rgb(214, 211, 186);
 }
 
 .player-score, .computer-score {
@@ -184,4 +184,14 @@ nav {
     background-color: rgba(52, 52, 52, 0.819);
 }
 
+.computer-icon-wrapper {
+    position: relative;
 
+}
+
+.bubble-icon-wrapper {
+    position: absolute;
+    left: 70%;
+    bottom: 60%;
+    font-size: 50px;
+}

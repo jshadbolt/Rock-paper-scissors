@@ -6,9 +6,15 @@ const playBtn = document.getElementById('play-button');
 const userMaxPoints = document.getElementById('max-points');
 const playerScoreSpan = document.getElementById('player-span');
 const computerScoreSpan = document.getElementById('computer-span');
-const playerWrapper = document.querySelector('.player-icon-wrapper')
-const computerWrapper = document.querySelector('.computer-icon-wrapper')
+const playerWrapper = document.querySelector('.player-icon-wrapper');
+const computerWrapper = document.querySelector('.computer-icon-wrapper');
 const glowDuration = 500;
+const bubbleDuration = glowDuration;
+
+const rockEmoji = '&#128074'
+const paperEmoji = '&#999'
+const scissorsEmoji = '&#9996'
+
 
 let playerScore = 0;
 let computerScore = 0;
@@ -40,6 +46,10 @@ function playRound(playerChoice) {
     checkGameEnd();
 }
 
+function showBubble(computer) {
+
+}
+
 function greenGlow(targetDiv) {
     targetDiv.classList.add('green-glow')
     setTimeout(() => {
@@ -64,7 +74,6 @@ function grayGlow(targetDiv1, targetDiv2) {
         targetDiv2.classList.remove('gray-glow')
     }, glowDuration )
 }
-
 
 function glowEffect(winner) {
     switch (winner) {
