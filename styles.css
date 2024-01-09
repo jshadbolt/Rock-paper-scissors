@@ -124,7 +124,11 @@ nav {
     display: flex;
     justify-content: center;
     align-items: center;
-    /* transition: all 1s; */
+}
+
+.remove-glow {
+    border: none;
+    transition: 1s;
 }
 
 .green-glow {
@@ -184,14 +188,43 @@ nav {
     background-color: rgba(52, 52, 52, 0.819);
 }
 
-.computer-icon-wrapper {
-    position: relative;
+.computer-icon-wrapper, .player-icon-wrapper {
+    /* position: relative; */
+}
+
+.player-emoji,
+.computer-emoji {
+    font-size: 200px;
 
 }
 
-.bubble-icon-wrapper {
+.computer-emoji {
     position: absolute;
-    left: 70%;
-    bottom: 60%;
-    font-size: 50px;
+    /* left: 0%; */
+    /* bottom: 100%; */
+}
+
+.player-emoji {
+    position: absolute;
+    /* right: 0%; */
+}
+
+.hide-emoji {
+    opacity: 0;
+    /* transition: 0.1s; */
+}
+
+.show-emoji {
+    opacity: 1;
+    transition: 0.1s;
+}
+
+.winning-emoji {
+    opacity: 0;
+    transition: ease-in-out 0.9s;
+}
+
+.losing-emoji {
+    opacity: 0;
+    transition: ease-in-out 0.5s;
 }

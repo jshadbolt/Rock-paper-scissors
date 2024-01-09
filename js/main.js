@@ -8,19 +8,24 @@ const playerScoreSpan = document.getElementById('player-span');
 const computerScoreSpan = document.getElementById('computer-span');
 const playerWrapper = document.querySelector('.player-icon-wrapper');
 const computerWrapper = document.querySelector('.computer-icon-wrapper');
+const computerEmoji = document.querySelector('.computer-emoji');
+const playerEmoji = document.querySelector('.player-emoji');
+
 const glowDuration = 500;
 const bubbleDuration = glowDuration;
-
 const rockEmoji = '&#128074'
-const paperEmoji = '&#999'
+const paperEmoji = '👋'
 const scissorsEmoji = '&#9996'
-
 
 let playerScore = 0;
 let computerScore = 0;
 let maxPoints = 3;
 let gameStarted = false;
 let gameEnded = false;
+
+playerEmoji.classList.add('hide-emoji')
+computerEmoji.classList.add('hide-emoji')
+
 
 function getRandomChoice() {
     const choices = ['r', 'p', 's'];
@@ -39,15 +44,61 @@ function resetGame() {
 
 function playRound(playerChoice) {
     if (!gameStarted || gameEnded) return;
-
     const computerChoice = getRandomChoice();
     decideWinner(playerChoice, computerChoice);
+    changeEmojiDisplay(playerChoice, computerChoice)
     updateScores();
     checkGameEnd();
 }
 
-function showBubble(computer) {
 
+function changeEmojiDisplay(playerChoice, computerChoice) {
+    computerEmoji.classList.remove('losing-emoji')
+    playerEmoji.classList.remove('losing-emoji')
+    computerEmoji.classList.add('show-emoji');
+    playerEmoji.classList.add('show-emoji');   
+    switch (playerChoice) {
+        case 'r':
+            playerEmoji.innerHTML = rockEmoji
+            break
+        case 'p':
+            playerEmoji.innerHTML = paperEmoji
+            break
+        case 's':
+            playerEmoji.innerHTML = scissorsEmoji
+    }
+    switch (computerChoice) {
+        case 'r':
+            computerEmoji.innerHTML = rockEmoji
+            break
+        case 'p':
+            computerEmoji.innerHTML = paperEmoji
+            break
+        case 's':
+            computerEmoji.innerHTML = scissorsEmoji
+    }
+    setTimeout( () => {
+        computerEmoji.classList.add('losing-emoji')
+        playerEmoji.classList.add('losing-emoji')
+    }, '1000');
+}
+
+function decideWinner(playerChoice, computerChoice) {
+    const result = playerChoice + computerChoice;
+    let winner = ''
+    let loser = ''
+    if (result === 'rs' || result === 'pr' || result === 'sp') {
+        playerScore++;
+        winner = 'player'
+        loser = 'computer'
+    } else if (result === 'rp' || result === 'ps' || result === 'sr') {
+        computerScore++;
+        winner = 'computer'
+        loser = 'player'
+    } else {
+        winner = 'tie'
+    }
+    // glowEffect(winner)
 }
 
 function greenGlow(targetDiv) {
@@ -88,24 +139,6 @@ function glowEffect(winner) {
         case 'tie':
             grayGlow(playerWrapper, computerWrapper)
     }
-}
-
-function decideWinner(playerChoice, computerChoice) {
-    const result = playerChoice + computerChoice;
-    let winner = ''
-    if (result === 'rs' || result === 'pr' || result === 'sp') {
-        playerScore++;
-        winner = 'player'
-        
-    } else if (result === 'rp' || result === 'ps' || result === 'sr') {
-        computerScore++;
-        winner = 'computer'
-
-    } else {
-        winner = 'tie'
-    }
-    glowEffect(winner)
-
 }
 
 function updateScores() {
